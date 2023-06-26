@@ -52,7 +52,7 @@ struct Home: View {
                         Image("shoe")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .padding(.horizontal,30)
+                            .padding(.horizontal,60)
                         
                         Text("Price")
                             .fontWeight(.semibold)
@@ -82,9 +82,11 @@ struct Home: View {
                     }
                 }
             }
+            // Bluring when cart is opened
             .blur(radius: homeData.showCart ? 50 : 0)
             
             AddToCart()
+            // setting enviroment object so as to access it easier
                 .environmentObject(homeData)
         }
     }
@@ -99,10 +101,38 @@ struct Home_Previews: PreviewProvider {
 
 struct AddToCart:View {
     
+    @EnvironmentObject var homeData: HomeViewModel
     
     var body: some View {
         VStack{
+            HStack(spacing: 15) {
+                Image("shoe")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .padding(.horizontal)
+                
+                
+                VStack(alignment: .trailing, spacing: 10, content:{
+                    Text("Air Max Exosense 'Atomic Powder'")
+                        .fontWeight(.semibold)
+                        .foregroundColor(.gray)
+                    Text("$270.00")
+                        .fontWeight(.bold)
+                        .foregroundColor(.black)
+                })
+            }
+            .padding()
+            
+            Divider()
+            
+            Text("SELECT SIZE")
+                .font(.caption)
+                .fontWeight(.semibold)
+                .foregroundColor(.gray)
+                .padding(.top,10)
             
         }
+        .padding()
+        .background(Color.white)
     }
 }

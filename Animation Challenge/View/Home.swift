@@ -89,6 +89,8 @@ struct Home: View {
             // setting enviroment object so as to access it easier
                 .environmentObject(homeData)
         }
+        .ignoresSafeArea(.all,edges: .bottom)
+        .background(Color.black.opacity(0.04).ignoresSafeArea())
     }
 }
 
@@ -131,8 +133,36 @@ struct AddToCart:View {
                 .foregroundColor(.gray)
                 .padding(.top,10)
             
+            //Sizes....
+            let colums = Array(repeating: GridItem(.flexible(),spacing: 8), count: 4)
+            
+            LazyVGrid(columns: colums,alignment: .leading, spacing: 15) {
+                ForEach(sizes,id: \.self){size in
+                    
+                    Button(action: {}, label: {
+                        Text(size)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.black)
+                            .padding(.vertical)
+                            .frame(maxWidth:.infinity)
+                            .background(Color.black.opacity(0.06))
+                            .cornerRadius(10)
+                    })
+                }
+            }
+            
         }
         .padding()
         .background(Color.white)
+    }
+}
+
+let sizes  = ["EU 40","EU41","EU42","EU43","EU44"]
+
+// extending view to get Screeen size
+
+extension View{
+    func getRect()->CGRect{
+        return UIScreen.main.bounds
     }
 }

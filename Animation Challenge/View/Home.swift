@@ -174,7 +174,7 @@ struct AddToCart:View {
             
         }
         .padding()
-        .background(Color.white)
+        .background(Color.white.clipShape(CustomCorners(corners: [.topLeft,.topRight], radius: 35)))
     }
 }
 

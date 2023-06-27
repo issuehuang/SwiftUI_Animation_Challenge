@@ -52,7 +52,7 @@ struct Home: View {
                         Image("shoe")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .padding(.horizontal,60)
+                            .padding(.horizontal,100)
                         
                         Text("Price")
                             .fontWeight(.semibold)

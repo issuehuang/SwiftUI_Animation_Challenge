@@ -9,6 +9,7 @@ import SwiftUI
 
 class HomeViewModel: ObservableObject {
     @Published var showCart = false
+    @Published var selectedSize = ""
 }
 
 

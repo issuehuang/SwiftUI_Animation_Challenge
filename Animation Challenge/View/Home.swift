@@ -86,6 +86,9 @@ struct Home: View {
             .blur(radius: homeData.showCart ? 50 : 0)
             
             AddToCart()
+            //hideing view when show is not selected...
+            //like Button Sheet
+                .offset(y: homeData.showCart ? 0: 500)
             // setting enviroment object so as to access it easier
                 .environmentObject(homeData)
         }
@@ -131,7 +134,7 @@ struct AddToCart:View {
                 .font(.caption)
                 .fontWeight(.semibold)
                 .foregroundColor(.gray)
-                .padding(.top,10)
+                .padding(.vertical)
             
             //Sizes....
             let colums = Array(repeating: GridItem(.flexible(),spacing: 8), count: 4)
@@ -139,17 +142,35 @@ struct AddToCart:View {
             LazyVGrid(columns: colums,alignment: .leading, spacing: 15) {
                 ForEach(sizes,id: \.self){size in
                     
-                    Button(action: {}, label: {
+                    Button(action: {
+                        withAnimation {
+                            homeData.selectedSize = size
+                        }
+                    }, label: {
                         Text(size)
                             .fontWeight(.semibold)
-                            .foregroundColor(.black)
+                            .foregroundColor(homeData.selectedSize == size ?.white : .black)
                             .padding(.vertical)
                             .frame(maxWidth:.infinity)
-                            .background(Color.black.opacity(0.06))
+                            .background(homeData.selectedSize == size ? Color.orange : Color.black.opacity(0.06))
                             .cornerRadius(10)
                     })
                 }
             }
+            .padding(.top)
+            //Add to cart Button
+            Button(action: {}, label: {
+                Text("Add to Cart")
+                    .fontWeight(.bold)
+                    .foregroundColor(homeData.selectedSize == "" ? .black : .white)
+                    .padding(.vertical)
+                    .frame(maxWidth:.infinity)
+                    .background(homeData.selectedSize == "" ? Color.black.opacity(0.06) : Color.orange)
+                    .cornerRadius(18)
+            })
+            // disabling button when no size selected
+            .disabled(homeData.selectedSize == "" )
+            .padding(.top)
             
         }
         .padding()

@@ -10,6 +10,10 @@ import SwiftUI
 class HomeViewModel: ObservableObject {
     @Published var showCart = false
     @Published var selectedSize = ""
+    
+    //Animation Properties
+    @Published var startAnimation = false
+    @Published var shoeAnimation = false
 }
 
 

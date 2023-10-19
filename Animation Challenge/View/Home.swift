@@ -9,6 +9,8 @@ import SwiftUI
 
 struct Home: View {
     @StateObject var homeData = HomeViewModel()
+    // Moving Image To top like Hero Animation...
+    @Namespace var animation
     var body: some View {
         ZStack(alignment: .bottom){
             VStack(spacing:15){
@@ -85,12 +87,17 @@ struct Home: View {
             // Bluring when cart is opened
             .blur(radius: homeData.showCart ? 50 : 0)
             
-            AddToCart()
+            AddToCart(animation: animation)
             //hideing view when show is not selected...
             //like Button Sheet
-                .offset(y: homeData.showCart ? 0: 500)
+            //Also closing when animation started
+                .offset(y: homeData.showCart ? homeData.startAnimation ? 500: 0 : 500)
             // setting enviroment object so as to access it easier
                 .environmentObject(homeData)
+            //Animations
+            if !homeData.startAnimation{
+                
+            }
         }
         .ignoresSafeArea(.all,edges: .bottom)
         .background(Color.black.opacity(0.04).ignoresSafeArea())
@@ -107,6 +114,7 @@ struct Home_Previews: PreviewProvider {
 struct AddToCart:View {
     
     @EnvironmentObject var homeData: HomeViewModel
+    var animation: Namespace.ID
     
     var body: some View {
         VStack{
@@ -114,13 +122,14 @@ struct AddToCart:View {
                 Image("shoe")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .padding(.horizontal)
+                    .matchedGeometryEffect(id: "SHOE", in: animation)
                 
                 
                 VStack(alignment: .trailing, spacing: 10, content:{
                     Text("Air Max Exosense 'Atomic Powder'")
                         .fontWeight(.semibold)
                         .foregroundColor(.gray)
+                        .multilineTextAlignment(.trailing)
                     Text("$270.00")
                         .fontWeight(.bold)
                         .foregroundColor(.black)
@@ -159,7 +168,11 @@ struct AddToCart:View {
             }
             .padding(.top)
             //Add to cart Button
-            Button(action: {}, label: {
+            Button(action: {
+                withAnimation(.easeInOut(duration: 0.7)){
+                    homeData.startAnimation.toggle()
+                }
+            }, label: {
                 Text("Add to Cart")
                     .fontWeight(.bold)
                     .foregroundColor(homeData.selectedSize == "" ? .black : .white)
